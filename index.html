@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WhatsApp Kit — mensagens prontas para corretores e anfitriões</title>
+<meta name="description" content="Biblioteca de mensagens de WhatsApp para o mercado imobiliário do litoral: follow-up, visita, proposta, cobrança. Satélite da rede praia.digital">
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f0fdf4;color:#052e16;min-height:100vh}
+header{padding:24px;text-align:center;background:linear-gradient(120deg,#16a34a,#25d366);color:#fff}
+nav a{color:#fef08a;margin:0 8px;text-decoration:none;font-size:14px}
+.wrap{max-width:720px;margin:auto;padding:24px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.tabs button{background:#fff;border:2px solid #86efac;color:#15803d;border-radius:99px;padding:8px 16px;cursor:pointer;font-weight:600}
+.tabs button.on{background:#16a34a;color:#fff}
+.msg{background:#fff;border-radius:16px 16px 16px 4px;padding:16px;margin-bottom:12px;box-shadow:0 3px 10px rgba(22,163,74,.1);position:relative;border-left:4px solid #25d366}
+.msg p{white-space:pre-wrap;font-size:15px;line-height:1.5}
+.msg button{position:absolute;top:10px;right:10px;background:#dcfce7;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;color:#15803d;font-weight:700}
+.msg button.copiado{background:#16a34a;color:#fff}
+label{font-weight:600;display:block;margin:10px 0 4px}
+input{width:100%;padding:11px;border-radius:10px;border:2px solid #bbf7d0;font-size:15px}
+footer{padding:20px;text-align:center;font-size:13px}
+footer a{color:#16a34a}
+</style></head>
+<body>
+<header><h1>💬 WhatsApp Kit</h1><p>Mensagens que convertem — copie, personalize e envie</p>
+<nav><a href="https://praia.digital">Praia Digital</a><a href="https://praia.digital/crm-corretor">CRM do Corretor</a><a href="https://praia.digital/concierge-ia">Concierge IA</a><a href="https://praia.digital/apps">Todos os apps</a></nav></header>
+<div class="wrap">
+<div class="panel" style="background:#fff;border-radius:14px;padding:16px;margin-bottom:16px"><label>Seu nome (personaliza as mensagens)</label><input id="corretor" placeholder="Ana | Praia Digital" oninput="draw()"></div>
+<div class="tabs" id="tabs"></div><div id="lista"></div>
+</div>
+<footer>Rede <a href="https://praia.digital">praia.digital</a> · <a href="https://praia.digital/gerador-descricoes">Gerador de Descrições</a> · <a href="https://praia.digital/tradutor-anuncio">Tradutor de Anúncios</a> · <a href="https://praia.digital/portal-corretores">Portal do Corretor</a></footer>
+<script>
+const cats={
+'🧲 Prospecção':['Olá {nome}! Vi que você procura imóvel no litoral 🌊 Tenho 3 opções que cabem no seu perfil. Posso te mandar fotos e valores?\n\n{corretor}','Oi {nome}, tudo bem? Aqui é {corretor}. Surgiu uma oportunidade abaixo do valor de mercado em {bairro} — posso te contar em 2 linhas?'],
+'👀 Visita':['Confirmando nossa visita amanhã às {hora} no {endereco} 📍 Estacionamento disponível no local. Até lá!\n{corretor}','{nome}, o que achou do imóvel de hoje? 😊 Posso mandar a simulação de financiamento para facilitar a decisão.'],
+'📝 Proposta':['Oi {nome}! O proprietário aceita propostas até sexta. Se quiser, montamos a sua com condições especiais 💪\n{corretor}','Boa notícia, {nome}! Sua proposta foi aceita 🎉 Próximo passo: documentação. Te mando a lista agora.'],
+'🔁 Follow-up':['{nome}, passando para saber se ficou alguma dúvida sobre o imóvel 😊 Sem pressão — quando quiser retomar, estou por aqui!','Oi {nome}! Esse imóvel teve proposta esta semana. Se ainda faz sentido pra você, me avisa que verifico a disponibilidade 🙏'],
+'🏖️ Anfitrião':['Olá {nome}! Sua reserva está confirmada 🌊 Check-in às 14h, self check-in com código no dia. Qualquer dúvida, estou à disposição!','{nome}, espero que a estadia esteja perfeita! Se puder deixar uma avaliação ⭐ depois, ajuda muito nosso cantinho na praia 😄']};
+let cat=Object.keys(cats)[0];
+tabs.innerHTML=Object.keys(cats).map(c=>`<button class="${c===cat?'on':''}" onclick="cat='${c}';draw();document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.textContent===c))">${c}</button>`).join('');
+function draw(){const cor=corretorEl=corretor.value||'{seu nome}';
+lista.innerHTML=cats[cat].map((m,i)=>{const txt=m.replaceAll('{corretor}',cor);return `<div class="msg"><button onclick="copiar(this,${i})">📋 Copiar</button><p>${txt}</p></div>`}).join('');}
+function copiar(btn,i){const cor=corretor.value||'{seu nome}';navigator.clipboard.writeText(cats[cat][i].replaceAll('{corretor}',cor));btn.textContent='✅ Copiado';btn.classList.add('copiado');setTimeout(()=>{btn.textContent='📋 Copiar';btn.classList.remove('copiado')},1500);}
+draw();
+</script></body></html>
